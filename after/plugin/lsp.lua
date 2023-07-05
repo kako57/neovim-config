@@ -58,3 +58,11 @@ lsp.setup()
 vim.diagnostic.config({
   virtual_text = true
 })
+
+-- clangd has this problem with multiple client offset encodings
+-- so we need to set it to utf-16, which null-ls uses
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-16" }
+require('lspconfig').clangd.setup {
+  capabilities = capabilities,
+}
